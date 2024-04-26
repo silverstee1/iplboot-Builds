@@ -11,6 +11,8 @@
 #include "fatfs/ff.h"
 #include "utils.h"
 #include "devices/m2loader.h"
+#include "devices/ATASLOTA.h"
+#include "devices/ATASLOTB.h"
 
 #include "stub.h"
 #define STUB_ADDR  0x80001000
@@ -349,7 +351,7 @@ int main()
     VIDEO_WaitVSync();
     CON_Init(__xfb, 0, 0, rmode->fbWidth, rmode->xfbHeight, rmode->fbWidth * VI_DISPLAY_PIX_SZ);
 
-    kprintf("\n\niplboot (with M.2 Loader support)\n");
+    kprintf("\n\niplboot (with IDE-EXI v2 & M.2 Loader support)\n");
 
     // Disable Qoob
     u32 val = 6 << 24;
@@ -396,6 +398,20 @@ int main()
     if (load_usb('B')) goto load;
 
     if (load_usb('A')) goto load;
+	
+	if (ATASLOTA_IsInserted()) {
+        kprintf("IDE-EXI v2 hardware detected\n");
+        if (load_fat("idea", &__io_ataslota, paths, num_paths)) goto load;
+    } else {
+        kprintf("No IDE-EXI v2 hardware detected\n");
+    }
+	
+	if (ATASLOTB_IsInserted()) {
+        kprintf("IDE-EXI v2 hardware detected\n");
+        if (load_fat("ideb", &__io_ataslotb, paths, num_paths)) goto load;
+    } else {
+        kprintf("No IDE-EXI v2 hardware detected\n");
+    }
 
     if (M2Loader_IsInserted()) {
         kprintf("M.2 Loader hardware detected\n");
