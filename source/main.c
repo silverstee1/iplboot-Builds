@@ -399,14 +399,14 @@ int main()
 
     if (load_usb('A')) goto load;
 	
-	if (ATASLOTA_IsInserted()) {
+    if (ATASLOTA_IsInserted()) {
         kprintf("IDE-EXI v2 hardware detected\n");
         if (load_fat("idea", &__io_ataslota, paths, num_paths)) goto load;
     } else {
         kprintf("No IDE-EXI v2 hardware detected\n");
     }
 	
-	if (ATASLOTB_IsInserted()) {
+    if (ATASLOTB_IsInserted()) {
         kprintf("IDE-EXI v2 hardware detected\n");
         if (load_fat("ideb", &__io_ataslotb, paths, num_paths)) goto load;
     } else {
