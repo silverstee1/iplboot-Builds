@@ -8,6 +8,8 @@ A minimal GameCube IPL
 iplboot will attempt to load DOLs from the following locations in order:
 - USB Gecko in Card Slot B
 - USB Gecko in Card Slot A
+- IDE-EXI SLOT A
+- IDE-EXI SLOT B
 - M.2 Loader
 - SD2SP2
 - SD Gecko in Card Slot B
