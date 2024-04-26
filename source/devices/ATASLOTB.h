@@ -1,24 +1,24 @@
 /**
- * M.2 Loader Driver for GameCube.
+ * IDE-EXI Driver for GameCube.
  *
- * M.2 Loader is M.2 SATA SSD adapter for Serial Port 1.
+ * IDE EXI + M.2 SSD Bridge adapter for Slot B.
  *
  * Based on IDE-EXI Driver from Swiss
  * Based loosely on code written by Dampro
- * Re-written by emu_kidid, Extrems, webhdx
+ * Re-written by emu_kidid, Extrems, webhdx, silversteel
  **/
 
-#ifndef M2LOADER_H
-#define M2LOADER_H
+#ifndef ATASLOTB_H
+#define ATASLOTB_H
 
 #include <gccore.h>
 #include <ogc/disc_io.h>
 
-#define EXI_M2LOADER_ID 0x49444500 //IDE
-//#define EXI_M2LOADER_ID 0x49444533 // IDE3
-#define DEVICE_TYPE_GC_M2LOADER (('M' << 24) | ('2' << 16) | ('L' << 8) | 'R')
+#define EXI_ATASLOTB_ID 0x49444500 //IDE
+//#define EXI_ATASLOTB_ID 0x49444532 // IDE2
+#define DEVICE_TYPE_GC_ATASLOTB (('I' << 24) | ('D' << 16) | ('E' << 8) | 'B')
 
-extern const DISC_INTERFACE __io_m2ldr;
+extern const DISC_INTERFACE __io_ataslotb;
 
 // ATA status register bits
 #define ATA_SR_BSY 0x80
@@ -93,43 +93,43 @@ typedef struct
     int lba48Support;
     char model[48];
     char serial[24];
-} typeDriveInfo;
+} typeDriveInfoB;
 
 typedef struct
 {
     u16 type; // 1 = master pw, 0 = user
     char password[32];
     u8 reserved[478];
-} unlockStruct;
+} unlockStructB;
 
-extern typeDriveInfo M2LoaderDriveInfo;
+extern typeDriveInfoB ATASLOTBDriveInfo;
 
 // Main SDK
-int M2Loader_DriveInit();
-int M2Loader_Unlock(int useMaster, char *password, int command);
-int M2Loader_ReadSectors(u64 sector, unsigned int numSectors, unsigned char *dest);
-int M2Loader_WriteSectors(u64 sector, unsigned int numSectors, unsigned char *src);
-int M2Loader_Shutdown();
-bool M2Loader_IsInserted();
-bool M2Loader_IsDriveInserted();
+int ATASLOTB_DriveInit();
+int ATASLOTB_Unlock(int useMaster, char *password, int command);
+int ATASLOTB_ReadSectors(u64 sector, unsigned int numSectors, unsigned char *dest);
+int ATASLOTB_WriteSectors(u64 sector, unsigned int numSectors, unsigned char *src);
+int ATASLOTB_Shutdown();
+bool ATASLOTB_IsInserted();
+bool ATASLOTB_IsDriveInserted();
 
 // Low level access functions
-u8 _M2Loader_ReadStatusReg();
-u8 _M2Loader_ReadErrorReg();
+u8 _ATASLOTB_ReadStatusReg();
+u8 _ATASLOTB_ReadErrorReg();
 
-void _M2Loader_WriteByte(u8 addr, u8 data);
+void _ATASLOTB_WriteByte(u8 addr, u8 data);
 
-u16 _M2Loader_ReadU16();
-void _M2Loader_WriteU16(u16 data);
+u16 _ATASLOTB_ReadU16();
+void _ATASLOTB_WriteU16(u16 data);
 
-void _M2Loader_ReadBuffer(u32 *dst);
-void _M2Loader_WriteBuffer(u32 *src);
+void _ATASLOTB_ReadBuffer(u32 *dst);
+void _ATASLOTB_WriteBuffer(u32 *src);
 
-int _M2Loader_ReadSector(u64 lba, u32 *Buffer);
-int _M2Loader_WriteSector(u64 lba, u32 *Buffer);
+int _ATASLOTB_ReadSector(u64 lba, u32 *Buffer);
+int _ATASLOTB_WriteSector(u64 lba, u32 *Buffer);
 
-int _M2Loader_ReadSectors(u64 sector, unsigned int numSectors, unsigned char *dest);
-int _M2Loader_WriteSectors(u64 sector, unsigned int numSectors, unsigned char *src);
+int _ATASLOTB_ReadSectors(u64 sector, unsigned int numSectors, unsigned char *dest);
+int _ATASLOTB_WriteSectors(u64 sector, unsigned int numSectors, unsigned char *src);
 
-void _M2Loader_PrintHddSector(u32 *dest);
+void _ATASLOTB_PrintHddSector(u32 *dest);
 #endif

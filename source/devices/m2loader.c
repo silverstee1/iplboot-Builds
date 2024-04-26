@@ -156,7 +156,8 @@ bool M2Loader_IsInserted()
     u32 cid = 0;
     EXI_GetID(EXI_CHANNEL_0, EXI_DEVICE_2, &cid);
 
-    return cid == EXI_M2LOADER_ID;
+    //return cid == EXI_M2LOADER_ID;
+	return (cid&~0xff) == EXI_M2LOADER_ID;
 }
 
 // Sends the IDENTIFY command to the SSD
