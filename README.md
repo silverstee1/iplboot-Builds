@@ -14,6 +14,7 @@ iplboot will attempt to load DOLs from the following locations in order:
 - SD2SP2
 - SD Gecko in Card Slot B
 - SD Gecko in Card Slot A
+- SD in SP1
 
 You can use button shortcuts to keep alternate software on quick access. When loading from an SD card, iplboot will look for and load different filenames depending on what buttons are being held:
 
